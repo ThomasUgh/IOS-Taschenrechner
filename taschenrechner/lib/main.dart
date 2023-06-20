@@ -4,6 +4,10 @@ void main() {
   runApp(const MyApp());
 }
 
+//------------------------>|App-Version|<------------------------
+String version = "v.0.0.2";
+
+//---------------------------------------------------------------
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
