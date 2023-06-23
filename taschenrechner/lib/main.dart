@@ -27,6 +27,42 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  late String _display = '0';
+
+  void _handleKey(String key) {
+    setState(() {
+      if (key == 'AC') {
+        _display = '0';
+      } else if (key == '=') {
+        _evaluateExpression();
+      } else {
+        if (_display == '0' && key != '.' && !_isOperator(key)) {
+          _display = key;
+        } else {
+          _display += key;
+        }
+      }
+    });
+  }
+
+  void _evaluateExpression() {
+    try {
+      Parser p = Parser();
+      Expression exp =
+          p.parse(_display.replaceAll('x', '*').replaceAll('÷', '/'));
+      ContextModel cm = ContextModel();
+      double eval = exp.evaluate(EvaluationType.REAL, cm);
+
+      _display = eval.toStringAsFixed(eval.truncateToDouble() == eval ? 0 : 2);
+    } catch (e) {
+      _display = 'Error';
+    }
+  }
+
+  bool _isOperator(String key) {
+    return ['+', '-', 'x', '÷', '%'].contains(key);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
