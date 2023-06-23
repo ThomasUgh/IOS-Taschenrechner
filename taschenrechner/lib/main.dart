@@ -30,7 +30,51 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      backgroundColor: Colors.black,
+      body: SafeArea(
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              child: Container(
+                alignment: Alignment.bottomRight,
+                padding: const EdgeInsets.all(32),
+                child: Text(_display,
+                    style: const TextStyle(fontSize: 48, color: Colors.white)),
+              ),
+            ),
+            GridView.builder(
+              shrinkWrap: true,
+              padding: const EdgeInsets.all(20),
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 4,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+              ),
+              itemBuilder: (context, index) {
+                if (_buttonLabels[index] == '0') {
+                  return CalculatorDoubleButton(
+                    _buttonLabels[index],
+                    _buttonColors[index],
+                    Colors.white,
+                    _handleKey,
+                  );
+                } else {
+                  return CalculatorButton(
+                    _buttonLabels[index],
+                    _buttonColors[index],
+                    Colors.white,
+                    _handleKey,
+                  );
+                }
+              },
+              itemCount: _buttonLabels.length,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
     );
   }
 }
