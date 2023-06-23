@@ -30,7 +30,10 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   late String _display = '0';
 
-  void _handleKey(String key) {
+void _handleKey(String key) {
+    if (_display == 'Fehler') {
+      _display = '';
+    }
     setState(() {
       if (key == 'AC') {
         _display = '0';
