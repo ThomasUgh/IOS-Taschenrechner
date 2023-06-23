@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:math_expressions/math_expressions.dart';
 import 'package:intl/intl.dart';
@@ -195,20 +196,18 @@ class CalculatorButton extends StatelessWidget {
   final Function(String) onPressed;
 
   const CalculatorButton(this.label, this.color, this.textColor, this.onPressed,
-      {super.key});
+      {Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      style: TextButton.styleFrom(
-        backgroundColor: color,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(100),
-        ),
-        padding: const EdgeInsets.all(24),
-      ),
+    return CupertinoButton(
+      color: color,
+      borderRadius: BorderRadius.circular(100),
+      padding: const EdgeInsets.all(24),
       child: Text(label, style: TextStyle(fontSize: 24, color: textColor)),
       onPressed: () => onPressed(label),
     );
   }
 }
+
