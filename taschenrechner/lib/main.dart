@@ -30,8 +30,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String _display = '0';
-  String _history = '';
+  var _display = '0';
+  var _history = '';
 
   void _handleKey(String key) {
     setState(() {
@@ -60,11 +60,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _evaluateExpression() {
     try {
-      String expression = _prepareExpression(_history + _display);
-      Parser p = Parser();
-      Expression exp = p.parse(expression);
-      ContextModel cm = ContextModel();
-      double eval = exp.evaluate(EvaluationType.REAL, cm);
+      var expression = _prepareExpression(_history + _display);
+      var p = Parser();
+      var exp = p.parse(expression);
+      var cm = ContextModel();
+      var eval = exp.evaluate(EvaluationType.REAL, cm);
       _display = NumberFormat('#,###').format(eval);
       _history = '';
     } catch (e) {
@@ -75,11 +75,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _squareNumber() {
     try {
-      String expression = _prepareExpression(_display);
-      Parser p = Parser();
-      Expression exp = p.parse(expression);
-      ContextModel cm = ContextModel();
-      double eval = exp.evaluate(EvaluationType.REAL, cm);
+      var expression = _prepareExpression(_display);
+      var p = Parser();
+      var exp = p.parse(expression);
+      var cm = ContextModel();
+      var eval = exp.evaluate(EvaluationType.REAL, cm);
       _display = NumberFormat('#,###').format(eval * eval);
       _history = '';
     } catch (e) {
