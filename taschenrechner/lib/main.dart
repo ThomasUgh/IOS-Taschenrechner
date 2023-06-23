@@ -36,6 +36,8 @@ class _MyHomePageState extends State<MyHomePage> {
         _display = '0';
       } else if (key == '=') {
         _evaluateExpression();
+      } else if (key == 'x²') {
+        _squareNumber();
       } else {
         if (_display == '0' && key != '.' && !_isOperator(key)) {
           _display = key;
@@ -60,6 +62,19 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+  void _squareNumber() {
+    try {
+      Parser p = Parser();
+      Expression exp = p.parse(_display);
+      ContextModel cm = ContextModel();
+      double eval = exp.evaluate(EvaluationType.REAL, cm);
+
+      _display = (eval * eval).toString();
+    } catch (e) {
+      _display = 'Error';
+    }
+  }
+
   bool _isOperator(String key) {
     return ['+', '-', 'x', '÷', '%'].contains(key);
   }
@@ -74,9 +89,9 @@ class _MyHomePageState extends State<MyHomePage> {
             Expanded(
               child: Container(
                 alignment: Alignment.bottomRight,
-                padding: const EdgeInsets.all(32),
+                padding: const EdgeInsets.all(30),
                 child: Text(_display,
-                    style: const TextStyle(fontSize: 48, color: Colors.white)),
+                    style: const TextStyle(fontSize: 52, color: Colors.white)),
               ),
             ),
             GridView.builder(
@@ -89,21 +104,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 mainAxisSpacing: 10,
               ),
               itemBuilder: (context, index) {
-                if (_buttonLabels[index] == '0') {
-                  return CalculatorDoubleButton(
-                    _buttonLabels[index],
-                    _buttonColors[index],
-                    Colors.white,
-                    _handleKey,
-                  );
-                } else {
-                  return CalculatorButton(
-                    _buttonLabels[index],
-                    _buttonColors[index],
-                    Colors.white,
-                    _handleKey,
-                  );
-                }
+                return CalculatorButton(
+                  _buttonLabels[index],
+                  _buttonColors[index],
+                  Colors.white,
+                  _handleKey,
+                );
               },
               itemCount: _buttonLabels.length,
             ),
@@ -131,6 +137,7 @@ class _MyHomePageState extends State<MyHomePage> {
     '3',
     '+',
     '0',
+    'x²',
     '.',
     '=',
   ];
@@ -151,6 +158,7 @@ class _MyHomePageState extends State<MyHomePage> {
     Colors.grey[700]!,
     Colors.grey[700]!,
     Colors.orange,
+    Colors.grey[700]!,
     Colors.grey[700]!,
     Colors.grey[700]!,
     Colors.orange,
@@ -178,21 +186,6 @@ class CalculatorButton extends StatelessWidget {
       ),
       child: Text(label, style: TextStyle(fontSize: 24, color: textColor)),
       onPressed: () => onPressed(label),
-    );
-  }
-}
-
-class CalculatorDoubleButton extends CalculatorButton {
-  const CalculatorDoubleButton(
-      String label, Color color, Color textColor, Function(String) onPressed,
-      {super.key})
-      : super(label, color, textColor, onPressed);
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: (MediaQuery.of(context).size.width - 60) / 2,
-      child: super.build(context),
     );
   }
 }
