@@ -29,27 +29,28 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  late String _display = '0';
+  String _display = '0';
+  String _history = '';
 
-void _handleKey(String key) {
-    if (_display == 'Fehler') {
-      _display = '';
-    }
+  void _handleKey(String key) {
     setState(() {
+      if (_display == 'Fehler') {
+        _display = '';
+      }
       if (key == 'AC') {
         _display = '0';
+        _history = '';
       } else if (key == '=') {
         _evaluateExpression();
       } else if (key == 'x²') {
         _squareNumber();
+      } else if (_isOperator(key)) {
+        _history += _display + key;
+        _display = '';
       } else {
-        if (_display == '0' && key != '.' && !_isOperator(key)) {
+        if (_display == '0' && key != '.') {
           _display = key;
-        } else if (_isDigit(key)) {
-          // Add the new digit and reformat the number.
-          _display = _reformatNumber(_display + key);
         } else {
-          // Add the new key without reformatting.
           _display += key;
         }
       }
