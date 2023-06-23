@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:math_expressions/math_expressions.dart';
+import 'package:intl/intl.dart';
 
 void main() {
   runApp(const MyApp());
@@ -44,7 +45,11 @@ void _handleKey(String key) {
       } else {
         if (_display == '0' && key != '.' && !_isOperator(key)) {
           _display = key;
+        } else if (_isDigit(key)) {
+          // Add the new digit and reformat the number.
+          _display = _reformatNumber(_display + key);
         } else {
+          // Add the new key without reformatting.
           _display += key;
         }
       }
