@@ -57,40 +57,22 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  String _reformatNumber(String number) {
-    // Remove the existing comma.
-    String numberWithoutComma = number.replaceAll(',', '');
-
-    // Try parsing the number.
-    int? parsedNumber = int.tryParse(numberWithoutComma);
-    if (parsedNumber != null) {
-      // Format the number with the comma as the thousands separator.
-      return NumberFormat('#,##0').format(parsedNumber);
-    } else {
-      // If it's not a number, return the original string.
-      return number;
-    }
-  }
-
-  bool _isDigit(String key) {
-    return int.tryParse(key) != null;
-  }
-
-
-void _evaluateExpression() {
+  void _evaluateExpression() {
     try {
-      String expression = _prepareExpression(_display);
+      String expression = _prepareExpression(_history + _display);
       Parser p = Parser();
       Expression exp = p.parse(expression);
       ContextModel cm = ContextModel();
       double eval = exp.evaluate(EvaluationType.REAL, cm);
       _display = NumberFormat('#,###').format(eval);
+      _history = '';
     } catch (e) {
       _display = 'Fehler';
+      _history = '';
     }
   }
 
-void _squareNumber() {
+  void _squareNumber() {
     try {
       String expression = _prepareExpression(_display);
       Parser p = Parser();
@@ -98,13 +80,14 @@ void _squareNumber() {
       ContextModel cm = ContextModel();
       double eval = exp.evaluate(EvaluationType.REAL, cm);
       _display = NumberFormat('#,###').format(eval * eval);
+      _history = '';
     } catch (e) {
       _display = 'Fehler';
+      _history = '';
     }
-}
+  }
 
-String _prepareExpression(String expression) {
-    // Remove the comma from the number and replace the operators with their correct symbols.
+  String _prepareExpression(String expression) {
     return expression
         .replaceAll(',', '')
         .replaceAll('x', '*')
