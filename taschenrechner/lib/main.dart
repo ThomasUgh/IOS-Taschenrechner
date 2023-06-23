@@ -155,6 +155,43 @@ class _MyHomePageState extends State<MyHomePage> {
     Colors.orange,
   ];
 }
+
+class CalculatorButton extends StatelessWidget {
+  final String label;
+  final Color color;
+  final Color textColor;
+  final Function(String) onPressed;
+
+  const CalculatorButton(this.label, this.color, this.textColor, this.onPressed,
+      {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      style: TextButton.styleFrom(
+        backgroundColor: color,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(100),
+        ),
+        padding: const EdgeInsets.all(24),
+      ),
+      child: Text(label, style: TextStyle(fontSize: 24, color: textColor)),
+      onPressed: () => onPressed(label),
+    );
+  }
+}
+
+class CalculatorDoubleButton extends CalculatorButton {
+  const CalculatorDoubleButton(
+      String label, Color color, Color textColor, Function(String) onPressed,
+      {super.key})
+      : super(label, color, textColor, onPressed);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: (MediaQuery.of(context).size.width - 60) / 2,
+      child: super.build(context),
     );
   }
 }
