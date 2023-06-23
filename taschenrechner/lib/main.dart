@@ -4,17 +4,17 @@ void main() {
   runApp(const MyApp());
 }
 
-//------------------------>|App-Version|<------------------------
-String version = "v.0.0.2";
-
-//---------------------------------------------------------------
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: MyHomePage(),
+    return MaterialApp(
+      theme: ThemeData(
+        brightness: Brightness.dark,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      home: const MyHomePage(),
     );
   }
 }
