@@ -97,6 +97,28 @@ class _MyHomePageState extends State<MyHomePage> {
     '.',
     '=',
   ];
+  final _buttonColors = [
+    Colors.grey[500]!,
+    Colors.grey[500]!,
+    Colors.grey[500]!,
+    Colors.orange,
+    Colors.grey[700]!,
+    Colors.grey[700]!,
+    Colors.grey[700]!,
+    Colors.orange,
+    Colors.grey[700]!,
+    Colors.grey[700]!,
+    Colors.grey[700]!,
+    Colors.orange,
+    Colors.grey[700]!,
+    Colors.grey[700]!,
+    Colors.grey[700]!,
+    Colors.orange,
+    Colors.grey[700]!,
+    Colors.grey[700]!,
+    Colors.orange,
+  ];
+}
     );
   }
 }
