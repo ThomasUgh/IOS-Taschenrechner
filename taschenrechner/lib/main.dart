@@ -114,7 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 alignment: Alignment.bottomRight,
                 padding: const EdgeInsets.all(30),
                 child: Text(_display,
-                    style: const TextStyle(fontSize: 52, color: Colors.white)),
+                    style: const TextStyle(fontSize: 65, color: Colors.white)),
               ),
             ),
             GridView.builder(
