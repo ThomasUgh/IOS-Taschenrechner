@@ -48,32 +48,62 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void _evaluateExpression() {
-    try {
-      Parser p = Parser();
-      Expression exp =
-          p.parse(_display.replaceAll('x', '*').replaceAll('÷', '/'));
-      ContextModel cm = ContextModel();
-      double eval = exp.evaluate(EvaluationType.REAL, cm);
+  String _reformatNumber(String number) {
+    // Remove the existing comma.
+    String numberWithoutComma = number.replaceAll(',', '');
 
-      _display = eval.toStringAsFixed(eval.truncateToDouble() == eval ? 0 : 2);
-    } catch (e) {
-      _display = 'Error';
+    // Try parsing the number.
+    int? parsedNumber = int.tryParse(numberWithoutComma);
+    if (parsedNumber != null) {
+      // Format the number with the comma as the thousands separator.
+      return NumberFormat('#,##0').format(parsedNumber);
+    } else {
+      // If it's not a number, return the original string.
+      return number;
     }
   }
 
-  void _squareNumber() {
+  bool _isDigit(String key) {
+    return int.tryParse(key) != null;
+  }
+
+
+void _evaluateExpression() {
     try {
+      String expression = _prepareExpression(_display);
       Parser p = Parser();
-      Expression exp = p.parse(_display);
+      Expression exp = p.parse(expression);
       ContextModel cm = ContextModel();
       double eval = exp.evaluate(EvaluationType.REAL, cm);
-
-      _display = (eval * eval).toString();
+      _display = NumberFormat('#,###').format(eval);
     } catch (e) {
-      _display = 'Error';
+      _display = 'Fehler';
     }
   }
+
+void _squareNumber() {
+    try {
+      String expression = _prepareExpression(_display);
+      Parser p = Parser();
+      Expression exp = p.parse(expression);
+      ContextModel cm = ContextModel();
+      double eval = exp.evaluate(EvaluationType.REAL, cm);
+      _display = NumberFormat('#,###').format(eval * eval);
+    } catch (e) {
+      _display = 'Fehler';
+    }
+}
+
+String _prepareExpression(String expression) {
+    // Remove the comma from the number and replace the operators with their correct symbols.
+    return expression
+        .replaceAll(',', '')
+        .replaceAll('x', '*')
+        .replaceAll('÷', '/');
+  }
+
+
+
 
   bool _isOperator(String key) {
     return ['+', '-', 'x', '÷', '%'].contains(key);
